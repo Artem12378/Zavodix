@@ -1,0 +1,81 @@
+/* src/app/styles/main.css */
+
+/* 1. Глобальная палитра Zavodix (Тема Catppuccin / Tailwind-стиль) */
+/* src/app/styles/main.css */
+:root {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --primary: #2563eb;
+  --line: #e2e8f0;
+  --radius: 14px;
+  /* ... полная палитра из гиста (green, red, shadow, etc.) ... */
+}
+/* Вставь содержимое стиля из первой части ответа (CSS-переменные, body, .btn, .pill, .tag) */
+
+/* 2. Жесткий сброс дефолтных стилей браузера */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+/* 3. Базовые стили для ссылок и инпутов */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  background: none;
+  border: none;
+  font: inherit;
+  outline: none;
+}
+
+/* 4. Красивый кастомный скроллбар для современных браузеров */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

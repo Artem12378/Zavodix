@@ -6,9 +6,19 @@
     // Extra safety for array and object lookups, but may have false positives.
     "noUncheckedIndexedAccess": true,
 
-    // Path mapping for cleaner imports.
+    // Глушим варнинг об устаревании baseUrl, так как он нам технически необходим
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+
+    // Возвращаем относительные пути, теперь всё скомпилируется идеально
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@widgets/*": ["./src/widgets/*"],
+      "@features/*": ["./src/features/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@shared/*": ["./src/shared/*"]
     },
 
     // `vue-tsc --build` produces a .tsbuildinfo file for incremental type-checking.
