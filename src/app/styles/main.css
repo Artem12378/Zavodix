@@ -42,6 +42,9 @@
   --header-border: #2d2d3f;
   --header-text-muted: #a6adc8;
   --secondary-bg: #f3f4f6;
+  --container-padding: clamp(12px, 3vw, 24px);
+  --container-padding-large: clamp(16px, 4vw, 28px);
+  --container-max-width: clamp(320px, 100%, 1280px);
 }
 
 body {
@@ -614,7 +617,19 @@ tbody tr:hover td {
   padding: 28px 24px 44px;
   flex: 1;
   display: block; /* чтобы не ломалось */
+  padding-left: var(--container-padding-large);
+  padding-right: var(--container-padding-large);
+  max-width: var(--container-max-width);
+  overflow-x: hidden;
 }
+
+table,
+img,
+pre {
+  max-width: 100%;
+  height: auto;
+}
+
 @media (max-width: 1120px) {
   .project-grid {
     grid-template-columns: 1fr 1fr;
@@ -630,18 +645,95 @@ tbody tr:hover td {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
-@media (max-width: 760px) {
-  .app-header-inner {
-    align-items: flex-start;
-    flex-direction: column;
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+  /* ---- Глобальные отступы ---- */
+  .page-main {
+    padding: 16px 12px 24px;
   }
-  .top-nav {
-    flex-wrap: wrap;
+  .app-content {
+    padding: 0 12px;
   }
-  .project-grid,
+
+  .app-viewport {
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+
+  /* ---- Концепт-бар ---- */
+  .concept-bar {
+    padding: 0 12px;
+    gap: 4px;
+    height: 32px; /* чуть уменьшили */
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+  }
+  .concept-label {
+    font-size: 8px;
+    margin-right: 2px;
+  }
+  .concept-btn {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  /* ---- Белый саб-хедер ---- */
+  .sub-header {
+    height: 48px;
+    padding: 0 12px;
+  }
+  .sub-header__logo-name {
+    font-size: 0.85rem;
+  }
+  .sub-header__logo-desc {
+    font-size: 0.65rem;
+  }
+  .sub-header__link {
+    font-size: 0.7rem;
+    padding: 4px 6px;
+  }
+  .sub-header__profile {
+    padding: 0.15rem 0.5rem 0.15rem 0.25rem;
+  }
+  .sub-header__username {
+    font-size: 0.65rem;
+  }
+  .sub-header__avatar {
+    width: 20px;
+    height: 20px;
+    font-size: 0.65rem;
+  }
+
+  .sub-header__container {
+    padding-left: var(--container-padding-large);
+    padding-right: var(--container-padding-large);
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+  }
+
+  /* ---- Сетки ---- */
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .stat {
+    padding: 8px;
+  }
+  .stat-value {
+    font-size: 18px;
+  }
   .form-grid,
   .form-grid-3,
-  .stats-grid,
   .slot-grid,
   .info-grid {
     grid-template-columns: 1fr;
@@ -649,16 +741,214 @@ tbody tr:hover td {
   .col-2 {
     grid-column: span 1;
   }
+
+  /* ---- Заголовки и текст ---- */
+  .page-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .subtitle {
+    font-size: 12px;
+  }
+  .breadcrumbs {
+    font-size: 12px;
+  }
+
+  /* ---- Вкладки ---- */
+  .tabs {
+    gap: 2px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .tab {
+    font-size: 11px;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+
+  /* ---- Карточки и кнопки ---- */
+  .card {
+    padding: 12px;
+  }
+  .card-title {
+    font-size: 14px;
+  }
+  .btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .btn-sm {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  /* ---- Поля ввода ---- */
+  .field input,
+  .field select {
+    height: 34px;
+    padding: 6px 10px;
+  }
+  .field textarea {
+    min-height: 60px;
+  }
+  .field label {
+    font-size: 12px;
+  }
+
+  /* ---- Таблицы (делаем прокрутку) ---- */
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  table {
+    font-size: 12px;
+  }
+  th,
+  td {
+    padding: 6px 8px;
+    white-space: nowrap;
+  }
+
+  /* ---- Пайплайн (если используется) ---- */
+  .pipeline {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+  .pipe-step {
+    padding: 8px;
+    min-height: 70px;
+  }
+  .pipe-name {
+    font-size: 11px;
+  }
+  .pipe-score {
+    font-size: 14px;
+  }
+
+  /* ---- Статьи и прочее ---- */
   .article-layout {
     grid-template-columns: 1fr;
   }
   .sticky {
     position: static;
   }
-  .pipeline {
-    grid-template-columns: 1fr 1fr;
+  .article-right {
+    grid-column: auto;
   }
-  .page-head {
-    flex-direction: column;
+  .article-preview h1 {
+    font-size: 22px;
   }
+  .article-preview h2 {
+    font-size: 17px;
+  }
+}
+
+/* ===== Принудительный перенос и защита от вылезания ===== */
+
+/* Все текстовые блоки, которые могут быть длинными */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+.card-title,
+.card-desc,
+.project-meta-list,
+.soft,
+.muted,
+.subtitle,
+.breadcrumbs,
+.stat-label,
+.stat-value,
+.stat-sub,
+.tag,
+.pill,
+.btn,
+.field label,
+.hint,
+.check-row {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Ссылки и URL в карточках */
+.project-card .soft,
+.project-card .tag,
+.project-card a,
+.project-card__url {
+  word-break: break-all;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Все flex-контейнеры, где может быть переполнение */
+.row,
+.row-between,
+.stack,
+.card-header,
+.page-head,
+.dashboard-page__header,
+.sub-header__actions,
+.nav-links,
+.user-badge,
+.top-nav {
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+/* Сетки – гарантируем, что колонки не выходят за пределы */
+.project-grid {
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  /* или используй auto-fill с minmax, но важно чтобы 1fr не превышал контейнер */
+}
+/* Если используешь auto-fill с minmax, замени на: */
+.project-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+}
+
+.stats-grid {
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+}
+
+/* Обёртка для таблиц – чтобы они скроллились внутри, а не вылезали */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+table {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed; /* заставляет ячейки подчиняться ширине */
+}
+th,
+td {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Защита для изображений и других медиа */
+img,
+video,
+iframe,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Все элементы с фиксированной шириной – сбрасываем */
+* {
+  max-width: 100%;
+  box-sizing: border-box;
 }

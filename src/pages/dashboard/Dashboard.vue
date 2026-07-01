@@ -60,7 +60,33 @@ const projects = ref([
       { label: 'Visual', value: 64, status: 'warn' as const },
     ],
   },
-  // ... остальные проекты
+  {
+    id: '2',
+    name: 'Zavodix Marketing',
+    url: 'https://zavodix.ru',
+    status: 'idle' as const,
+    articlesCount: 2,
+    health: 38,
+    healthDetails: [
+      { label: 'Knowledge', value: 38, status: 'warn' as const },
+      { label: 'Links', value: 22, status: 'warn' as const },
+      { label: 'Visual', value: 0, status: 'red' as const },
+    ],
+  },
+  {
+    id: '3',
+    name: 'Demo Project',
+    url: 'https://demo.example.com',
+    status: 'error' as const,
+    articlesCount: 0,
+    health: 0,
+    healthDetails: [
+      { label: 'Knowledge', value: 0, status: 'red' as const },
+      { label: 'Links', value: 0, status: 'red' as const },
+      { label: 'Visual', value: 0, status: 'red' as const },
+    ],
+    alert: 'Проект создан, но база знаний ещё пустая. Можно запускать только тестовый режим.',
+  },
 ])
 
 const totalArticles = computed(() => projects.value.reduce((sum, p) => sum + p.articlesCount, 0))
