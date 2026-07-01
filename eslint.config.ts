@@ -24,6 +24,24 @@ export default defineConfigWithVueTs(
     },
   },
 
+  // 👇 НОВОЕ ПРАВИЛО – не ругается на экспорты и игнорирует переменные с _
+  {
+    name: 'app/typescript-rules',
+    files: ['**/*.{ts,tsx,vue}'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          vars: 'all', // проверяем все переменные
+          args: 'after-used', // аргументы проверяем только если не используются после
+          ignoreRestSiblings: true, // игнорируем деструктуризацию {...rest}
+          argsIgnorePattern: '^_', // игнорировать аргументы, начинающиеся с _
+          varsIgnorePattern: '^_', // игнорировать переменные, начинающиеся с _
+        },
+      ],
+    },
+  },
+
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 
   skipFormatting,

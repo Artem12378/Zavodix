@@ -20,6 +20,25 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       redirect: '/dashboard',
     },
+    {
+      path: '/project/new',
+      name: 'project-new',
+      component: () => import('@pages/project-new/ProjectNewView.vue'),
+    },
+    {
+      path: '/runs',
+      name: 'runs',
+      component: DashboardView, // временная заглушка
+    },
+    {
+      path: '/users',
+      name: 'users',
+      component: DashboardView, // временная заглушка
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/dashboard',
+    },
   ],
 })
 

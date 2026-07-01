@@ -1,4 +1,3 @@
-<!-- src/App.vue -->
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import { Sidebar } from '@widgets/sidebar'
@@ -6,13 +5,10 @@ import { Sidebar } from '@widgets/sidebar'
 
 <template>
   <div class="app-layout">
-    <!-- Наша новая верхняя шапка-меню -->
     <Sidebar />
-
-    <!-- Контент страниц теперь аккуратно смещен вниз под шапку -->
-    <main class="app-content">
+    <div class="app-viewport">
       <RouterView />
-    </main>
+    </div>
   </div>
 </template>
 
@@ -22,21 +18,19 @@ body,
 #app {
   margin: 0;
   padding: 0;
-  height: 100%;
-  background-color: var(--secondary-bg, #f9fafb);
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg, #f6f7fb);
 }
 
 .app-layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
-.app-content {
-  flex: 1;
-  padding-top: 45px; /* Изменили с 60px на 45px под новую высоту шапки */
+.app-viewport {
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
+  padding-top: 36px; /* отступ для фиксированного концепт-бара */
+  flex: 1;
 }
 </style>

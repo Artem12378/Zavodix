@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { AppButton } from '@shared/ui/app-button'
-import { AppInput } from '@shared/ui/app-input'
+import { useRouter } from 'vue-router'
 
-const username = ref('')
-const password = ref('')
+const router = useRouter()
+const username = ref('annelo@zavodix.ru')
+const password = ref('00000000')
 const error = ref('')
 const isLoading = ref(false)
 
@@ -13,15 +13,11 @@ const onSubmit = async () => {
     error.value = 'Заполните все поля'
     return
   }
-
   error.value = ''
   isLoading.value = true
-
   try {
-    console.log('Отправка данных:', { username: username.value, password: password.value })
-    // Имитация сетевого запроса к бэкенду zavodix
     await new Promise((resolve) => setTimeout(resolve, 1500))
-    alert('Успешный вход!')
+    router.push('/dashboard')
   } catch {
     error.value = 'Неверный логин или пароль'
   } finally {
@@ -31,68 +27,37 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <div class="login-form-widget">
-    <h2 class="login-form-widget__title">Войти в Zavodix</h2>
-    <p class="login-form-widget__subtitle">Панель управления конвейером ИИ</p>
-
-    <form @submit.prevent="onSubmit" class="login-form-widget__form">
-      <AppInput
+  <form @submit.prevent="onSubmit" class="card">
+    <div class="field">
+      <label>Электронная почта</label>
+      <input
+        type="email"
         v-model="username"
-        label="Логин или Email"
-        placeholder="Введите ваш логин"
-        type="text"
         :disabled="isLoading"
+        placeholder="Введите ваш email"
       />
+    </div>
+    <div class="spacer"></div>
+    <div class="field">
+      <label>Пароль</label>
+      <input type="password" v-model="password" :disabled="isLoading" placeholder="••••••••" />
+    </div>
+    <div class="spacer"></div>
 
-      <AppInput
-        v-model="password"
-        label="Пароль"
-        placeholder="••••••••"
-        type="password"
-        :disabled="isLoading"
-      />
+    <p v-if="error" class="alert alert-error" style="margin-bottom: 12px">
+      {{ error }}
+    </p>
 
-      <p v-if="error" class="login-form-widget__error-msg">{{ error }}</p>
+    <button type="submit" class="btn btn-primary w-full" :disabled="isLoading">
+      {{ isLoading ? '⏳ Вход...' : 'Войти' }}
+    </button>
 
-      <AppButton type="submit" :loading="isLoading"> Войти в систему </AppButton>
-    </form>
-  </div>
+    <div class="small soft" style="text-align: center; margin-top: 12px">
+      Read-only preview · UI concept
+    </div>
+  </form>
 </template>
 
 <style scoped>
-.login-form-widget {
-  background: #ffffff;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  max-width: 400px;
-}
-
-.login-form-widget__title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-
-.login-form-widget__subtitle {
-  font-size: 0.9rem;
-  color: #6b7280;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.login-form-widget__form {
-  display: flex;
-  flex-direction: column;
-}
-
-.login-form-widget__error-msg {
-  color: #ef4444;
-  font-size: 0.85rem;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
+/* Все стили берутся из глобального main.css – здесь ничего не переопределяем */
 </style>

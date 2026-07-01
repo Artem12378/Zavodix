@@ -1,152 +1,241 @@
-<!-- src/widgets/sidebar/Sidebar.vue -->
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 
-// Массив меню с маршрутами
-const menuItems = [
-  { to: '/auth', label: 'Вход', icon: '🔑' },
-  { to: '/dashboard', label: 'Проекты', icon: '📁' },
-  { to: '/project/new', label: 'Новый проект', icon: '➕' },
-  { to: '/project/detail', label: 'Дашборд проекта', icon: '📊' },
-  { to: '/article/new', label: 'Новая статья', icon: '✍️' },
-  { to: '/article/detail', label: 'Статья / Package', icon: '📦' },
-  { to: '/pipeline', label: 'Запуски', icon: '🚀' },
-  { to: '/users', label: 'Пользователи', icon: '👥' },
+const route = useRoute()
+
+const conceptItems = [
+  { to: '/auth', label: 'Вход' },
+  { to: '/dashboard', label: 'Проекты' },
+  { to: '/project/new', label: 'Новый проект' },
+  { to: '/project/detail', label: 'Дашборд проекта' },
+  { to: '/article/new', label: 'Новая статья' },
+  { to: '/article/detail', label: 'Статья / Package' },
+  { to: '/pipeline', label: 'Запуски' },
+  { to: '/users', label: 'Пользователи' },
 ]
 </script>
 
 <template>
-  <header class="app-header">
-    <div class="app-header__container">
-      <!-- Брендинг панели Zavodix -->
-      <div class="app-header__brand">
-        <span class="app-header__logo">Zavodix</span>
-        <span class="app-header__badge">panel</span>
-      </div>
-
-      <!-- Навигационная панель из макета -->
-      <nav class="concept-bar">
-        <span class="concept-label">Концепт</span>
-
+  <!-- 1. Фиксированный концепт-бар -->
+  <div class="fixed-top-container">
+    <div class="concept-bar">
+      <span class="concept-label">Концепт</span>
+      <nav class="concept-nav">
         <RouterLink
-          v-for="item in menuItems"
+          v-for="item in conceptItems"
           :key="item.to"
           :to="item.to"
           class="concept-btn"
           active-class="active"
         >
-          <span class="concept-btn__icon">{{ item.icon }}</span>
           <span class="concept-btn__text">{{ item.label }}</span>
         </RouterLink>
       </nav>
+    </div>
+  </div>
+
+  <!-- 2. Белый саб-хедер – НЕ показывается на странице входа -->
+  <header v-if="route.path !== '/auth'" class="sub-header">
+    <div class="sub-header__container">
+      <div class="sub-header__brand">
+        <div class="sub-header__logo-icon">Z</div>
+        <div class="sub-header__brand-text">
+          <h1 class="sub-header__logo-name">Zavodix</h1>
+          <span class="sub-header__logo-desc">Content Factory OS</span>
+        </div>
+      </div>
+      <div class="sub-header__actions">
+        <nav class="nav-links">
+          <RouterLink to="/dashboard" class="nav-link" active-class="active">Проекты</RouterLink>
+          <RouterLink to="/pipeline" class="nav-link" active-class="active">Запуски</RouterLink>
+          <RouterLink to="/users" class="nav-link" active-class="active">Пользователи</RouterLink>
+        </nav>
+        <div class="user-badge">
+          <div class="user-badge__avatar">A</div>
+          <span class="user-badge__name">annelo@zavodix.ru</span>
+        </div>
+      </div>
     </div>
   </header>
 </template>
 
 <style scoped>
-/* Узкая и аккуратная шапка-контейнер */
-.app-header {
-  width: 100%;
-  height: 45px; /* Уменьшили высоту с 60px до 45px, чтобы она не занимала много места */
-  background-color: #1e1e2e;
-  border-bottom: 1px solid #2d2d3f;
+/* Фиксируем ТОЛЬКО концепт-бар */
+.fixed-top-container {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  z-index: 1000;
+  height: 36px;
 }
 
-.app-header__container {
-  max-width: 1440px;
-  height: 100%;
-  margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-}
-
-/* Логотип */
-.app-header__brand {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  flex-shrink: 0;
-}
-
-.app-header__logo {
-  font-size: 1.1rem; /* Слегка уменьшили размер */
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: -0.025em;
-}
-
-.app-header__badge {
-  font-size: 0.65rem;
-  background-color: #313244;
-  color: #cdd6f4;
-  padding: 0.1rem 0.3rem;
-  border-radius: 4px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-/* Концепт-бар навигации */
 .concept-bar {
+  width: 100%;
+  height: 36px;
+  background: #111827;
+  color: #cbd5e1;
   display: flex;
   align-items: center;
-  gap: 0.25rem; /* Уменьшили расстояние между кнопками */
+  gap: 8px;
+  padding: 0 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
   overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.concept-bar::-webkit-scrollbar {
-  display: none;
 }
 
 .concept-label {
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #6c7086;
-  margin-right: 0.35rem;
-  letter-spacing: 0.05em;
+  color: #94a3b8;
+  white-space: nowrap;
+  margin-right: 4px;
 }
 
-/* Более мелкие и круглые кнопки (в стиле Pill/Пилюля) */
-.concept-btn {
+.concept-nav {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.75rem; /* Уменьшили внутренние отступы */
-  color: #a6adc8;
-  text-decoration: none;
-  font-size: 0.8rem; /* Сделали шрифт кнопок мельче */
-  font-weight: 500;
-  border-radius: 9999px; /* Сделали кнопки полностью круглыми по бокам */
-  border: 1px solid transparent;
-  background: transparent;
-  transition: all 0.15s ease;
+  gap: 8px;
+}
+
+.concept-btn {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(51, 65, 85, 0.75);
+  color: #dbeafe;
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-size: 12px;
   white-space: nowrap;
   cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .concept-btn:hover {
-  background-color: #313244;
-  color: #ffffff;
+  background: rgba(71, 85, 105, 0.9);
 }
 
-/* Активное состояние кнопки */
 .concept-btn.active {
-  background-color: var(--primary-color, #2563eb);
-  color: #ffffff;
-  font-weight: 600;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+  background: var(--primary, #2563eb);
+  color: #fff;
+  border-color: var(--primary, #2563eb);
 }
 
-.concept-btn__icon {
-  font-size: 0.85rem;
+/* БЕЛЫЙ САБ-ХЕДЕР – В ПОТОКЕ (уплывает при скролле) */
+.sub-header {
+  width: 100%;
+  height: 56px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  margin-top: 36px; /* отступ от фиксированного концепт-бара */
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+.sub-header__container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sub-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sub-header__logo-icon {
+  width: 32px;
+  height: 32px;
+  background-color: #6366f1;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.sub-header__brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.sub-header__logo-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.sub-header__logo-desc {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.sub-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #0f172a;
+}
+
+.nav-link.active {
+  color: #6366f1;
+  font-weight: 600;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f1f5f9;
+  padding: 0.25rem 0.75rem 0.25rem 0.35rem;
+  border-radius: 9999px;
+}
+
+.user-badge__avatar {
+  width: 24px;
+  height: 24px;
+  background-color: #dbeafe;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+}
+
+.user-badge__name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #334155;
 }
 </style>

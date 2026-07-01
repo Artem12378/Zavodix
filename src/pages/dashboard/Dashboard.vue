@@ -1,65 +1,84 @@
-<!-- src/pages/dashboard/Dashboard.vue -->
-<script setup lang="ts">
-import { ref } from 'vue'
-import { ProjectCard } from '@widgets/project-card'
-
-// Тестовые данные для отображения карточек в админке
-const projects = ref([
-  {
-    id: '1',
-    name: 'Zavodix Tech Blog',
-    url: 'https://zavodix.com',
-    status: 'active' as const,
-    articlesCount: 142,
-    health: 96,
-  },
-  {
-    id: '2',
-    name: 'AI Crypto Portal',
-    url: 'https://crypto-news.ai',
-    status: 'idle' as const,
-    articlesCount: 89,
-    health: 91,
-  },
-  {
-    id: '3',
-    name: 'Auto-SEO Affiliate',
-    url: 'https://best-vpn-reviews.net',
-    status: 'error' as const,
-    articlesCount: 34,
-    health: 54,
-  },
-])
-</script>
-
 <template>
-  <div class="dashboard-page">
+  <div class="page-main">
     <header class="dashboard-page__header">
       <div>
-        <h1 class="dashboard-page__title">Наши проекты</h1>
-        <p class="dashboard-page__subtitle">Мониторинг состояния автоматических ИИ-пайплайнов</p>
+        <h1 class="dashboard-page__title">Проекты</h1>
+        <p class="dashboard-page__subtitle">Контент-пакеты, базы знаний, адаптеры и краулинг.</p>
       </div>
+      <button class="btn btn-primary" @click="$router.push('/project/new')">+ Новый проект</button>
     </header>
 
-    <main class="dashboard-page__content">
-      <div class="project-grid">
-        <ProjectCard v-for="project in projects" :key="project.id" :project="project" />
+    <!-- Статистика -->
+    <div class="stats-grid" style="margin-bottom: 16px">
+      <div class="stat">
+        <div class="stat-label">Проекты</div>
+        <div class="stat-value">{{ projects.length }}</div>
+        <div class="stat-sub">{{ activeProjects }} активных</div>
       </div>
-    </main>
+      <div class="stat">
+        <div class="stat-label">Article packages</div>
+        <div class="stat-value">{{ totalArticles }}</div>
+        <div class="stat-sub">готово</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Visual backlog</div>
+        <div class="stat-value" style="color: #ea580c">7</div>
+        <div class="stat-sub">картинки требуют проверки</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Ошибки за сутки</div>
+        <div class="stat-value" style="color: #16a34a">0</div>
+        <div class="stat-sub">конвейер стабилен</div>
+      </div>
+    </div>
+
+    <!-- Карточки проектов -->
+    <div class="project-grid">
+      <ProjectCard v-for="project in projects" :key="project.id" :project="project" class="card" />
+    </div>
   </div>
 </template>
 
-<style scoped>
-.dashboard-page {
-  padding: 2rem 1.5rem;
-}
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { ProjectCard } from '@widgets/project-card'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const router = useRouter()
 
+const projects = ref([
+  {
+    id: '1',
+    name: 'Блог Annelo',
+    url: 'https://annelo.ru',
+    status: 'active' as const,
+    articlesCount: 14,
+    health: 96,
+    healthDetails: [
+      { label: 'Knowledge', value: 92, status: 'green' as const },
+      { label: 'Links', value: 86, status: 'green' as const },
+      { label: 'Visual', value: 64, status: 'warn' as const },
+    ],
+  },
+  // ... остальные проекты
+])
+
+const totalArticles = computed(() => projects.value.reduce((sum, p) => sum + p.articlesCount, 0))
+const activeProjects = computed(() => projects.value.filter((p) => p.status === 'active').length)
+</script>
+
+<style scoped>
+/* Удаляем старые отступы – теперь всё идёт от .page-main */
 .dashboard-page__header {
-  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
 }
 
 .dashboard-page__title {
-  font-size: 1.75rem;
+  font-size: 24px;
   font-weight: 700;
   color: var(--text-main, #111827);
   letter-spacing: -0.02em;

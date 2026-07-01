@@ -1,7 +1,7 @@
 // src/main.ts
+import './app/styles/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
 import App from './App.vue'
 import router from './app/providers/router'
 import './app/styles/main.css' // Импортируем стили из правильного слоя app

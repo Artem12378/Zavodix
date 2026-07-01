@@ -1,81 +1,664 @@
 /* src/app/styles/main.css */
-
-/* 1. Глобальная палитра Zavodix (Тема Catppuccin / Tailwind-стиль) */
-/* src/app/styles/main.css */
 :root {
+  /* Из макета */
   --bg: #f6f7fb;
   --surface: #ffffff;
+  --surface-2: #f9fafb;
+  --surface-3: #f1f5f9;
   --text: #0f172a;
   --muted: #64748b;
-  --primary: #2563eb;
+  --soft: #94a3b8;
   --line: #e2e8f0;
+  --line-soft: #eef2f7;
+  --primary: #2563eb;
+  --primary-2: #1d4ed8;
+  --green: #16a34a;
+  --green-bg: #dcfce7;
+  --red: #dc2626;
+  --red-bg: #fee2e2;
+  --yellow: #ca8a04;
+  --yellow-bg: #fef9c3;
+  --orange: #ea580c;
+  --orange-bg: #ffedd5;
+  --blue-bg: #dbeafe;
+  --indigo-bg: #e0e7ff;
+  --purple: #7c3aed;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 26px rgba(15, 23, 42, 0.05);
   --radius: 14px;
-  /* ... полная палитра из гиста (green, red, shadow, etc.) ... */
-}
-/* Вставь содержимое стиля из первой части ответа (CSS-переменные, body, .btn, .pill, .tag) */
+  --radius-sm: 9px;
+  --max: 1280px;
 
-/* 2. Жесткий сброс дефолтных стилей браузера */
-* {
-  box-sizing: border-box;
+  /* Твои доп. переменные (для совместимости с компонентами) */
+  --primary-color: #2563eb;
+  --primary-hover-color: #1d4ed8;
+  --error-color: #ef4444;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --bg-main: #f6f7fb;
+  --bg-card: #ffffff;
+  --input-bg: #ffffff;
+  --header-bg: #1e1e2e;
+  --header-border: #2d2d3f;
+  --header-text-muted: #a6adc8;
+  --secondary-bg: #f3f4f6;
+}
+
+body {
   margin: 0;
-  padding: 0;
   font-family:
-    system-ui,
+    'Inter',
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
     Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Open Sans',
-    'Helvetica Neue',
     sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-html,
-body,
-#app {
+/* Утилиты */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.muted {
+  color: var(--muted, #4b5563);
+}
+.soft {
+  color: var(--soft, #94a3b8);
+}
+.small {
+  font-size: 12px;
+}
+.tiny {
+  font-size: 11px;
+}
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.spacer {
+  height: 14px;
+}
+.hide {
+  display: none !important;
+}
+.w-full {
   width: 100%;
-  height: 100%;
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  overflow-x: hidden;
 }
 
-/* 3. Базовые стили для ссылок и инпутов */
-a {
-  color: inherit;
+/* Карточка (базовый стиль) */
+.card {
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: var(--radius, 14px);
+  box-shadow: var(--shadow, none);
+  padding: 18px;
+}
+.card.flat {
+  box-shadow: none;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+}
+.card-desc {
+  color: var(--text-muted, #4b5563);
+  font-size: 13px;
+  margin-top: 4px;
+}
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* Пиллы (индикаторы) */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.pill-green {
+  background: var(--green-bg, #dcfce7);
+  color: #15803d;
+}
+.pill-blue {
+  background: var(--blue-bg, #dbeafe);
+  color: #1d4ed8;
+}
+.pill-yellow {
+  background: var(--yellow-bg, #fef9c3);
+  color: #a16207;
+}
+.pill-orange {
+  background: var(--orange-bg, #ffedd5);
+  color: #c2410c;
+}
+.pill-red {
+  background: var(--red-bg, #fee2e2);
+  color: #b91c1c;
+}
+.pill-gray {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.pill-indigo {
+  background: var(--indigo-bg, #e0e7ff);
+  color: #4338ca;
+}
+.pill-purple {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+/* Теги */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #334155;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Health bar (можно вынести в отдельный компонент, но пока глобально) */
+.health-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.health-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+.health-bar {
+  height: 7px;
+  flex: 1;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.health-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary-color, #2563eb);
+}
+.health-fill.green {
+  background: var(--green, #16a34a);
+}
+.health-fill.warn {
+  background: #f59e0b;
+}
+.health-fill.red {
+  background: var(--red, #dc2626);
+}
+
+/* Таблицы */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  color: var(--soft, #94a3b8);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 750;
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  padding: 10px 12px;
+}
+td {
+  border-bottom: 1px solid var(--line-soft, #eef2f7);
+  padding: 12px;
+  color: #334155;
+  font-size: 13px;
+  vertical-align: top;
+}
+tr:last-child td {
+  border-bottom: none;
+}
+tbody tr:hover td {
+  background: #fafcff;
+}
+
+/* Статистика */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.stat {
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 12px;
+  background: #fff;
+  padding: 12px;
+}
+.stat-label {
+  color: var(--soft, #94a3b8);
+  font-size: 11px;
+}
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 2px;
+  letter-spacing: -0.03em;
+}
+.stat-sub {
+  color: var(--muted, #4b5563);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* Вкладки */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  margin-bottom: 17px;
+  overflow-x: auto;
+}
+.tab {
+  padding: 10px 12px;
+  color: var(--muted, #4b5563);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.tab:hover {
+  color: var(--text-main, #111827);
+}
+.tab.active {
+  color: var(--primary-color, #2563eb);
+  border-bottom-color: var(--primary-color, #2563eb);
+  font-weight: 700;
+}
+
+/* Алерты */
+.alert {
+  border: 1px solid;
+  border-radius: 12px;
+  padding: 11px 13px;
+  font-size: 13px;
+}
+.alert-info {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+.alert-warn {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+.alert-error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+.alert-ok {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+/* Формы (если нужно, но у тебя уже есть AppInput, можно использовать его) */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+.col-2 {
+  grid-column: span 2;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field label {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 650;
+}
+.field input,
+.field select,
+.field textarea {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: var(--text-main, #111827);
+  border-radius: 9px;
+  padding: 8px 11px;
+  outline: none;
+  min-height: 37px;
+}
+.field textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--primary-color, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.11);
+}
+.hint {
+  color: var(--soft, #94a3b8);
+  font-size: 11px;
+}
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #334155;
+  font-size: 13px;
+  padding-top: 9px;
+}
+
+/* ===== Глобальные стили для кнопок (как в шаблоне) ===== */
+.btn {
+  border: 1px solid transparent;
+  border-radius: 9px;
+  padding: 8px 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-sm {
+  padding: 5px 9px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.btn-primary {
+  background: var(--primary-color, #2563eb);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.2);
+}
+.btn-primary:hover {
+  background: var(--primary-hover-color, #1d4ed8);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--surface-3, #f1f5f9);
+  color: #334155;
+  border-color: #e2e8f0;
+}
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted, #4b5563);
+}
+.btn-ghost:hover {
+  background: var(--surface-3, #f1f5f9);
+  color: var(--text-main, #111827);
+}
+
+.btn-danger {
+  background: var(--red-bg, #fee2e2);
+  color: #b91c1c;
+}
+.btn-danger:hover {
+  background: #fecaca;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== Шапка (AppHeader) ===== */
+.app-header {
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
+
+.app-header-inner {
+  max-width: var(--max, 1280px);
+  margin: 0 auto;
+  padding: 13px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.brand-name {
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: var(--soft, #94a3b8);
+  margin-top: -2px;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.top-nav a {
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: var(--muted, #4b5563);
+  font-size: 13px;
   text-decoration: none;
 }
 
-button,
-input,
-select,
-textarea {
-  background: none;
-  border: none;
-  font: inherit;
+.top-nav a:hover {
+  background: var(--surface-3, #f1f5f9);
+  color: var(--text-main, #111827);
+}
+
+.top-nav a.active {
+  background: #eff6ff;
+  color: var(--primary-color, #2563eb);
+  font-weight: 650;
+}
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 14px;
+  margin-left: 8px;
+  border-left: 1px solid var(--line, #e2e8f0);
+  color: var(--muted, #4b5563);
+  font-size: 12px;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e0e7ff;
+  color: #4338ca;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field label {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.field input,
+.field select {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: var(--text);
+  border-radius: 9px;
+  padding: 8px 11px;
   outline: none;
+  height: 37px; /* ← фиксированная высота, как в макете */
+  box-sizing: border-box;
 }
 
-/* 4. Красивый кастомный скроллбар для современных браузеров */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+.field textarea {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: var(--text);
+  border-radius: 9px;
+  padding: 8px 11px;
+  outline: none;
+  min-height: 82px; /* для textarea оставляем минимальную */
+  resize: vertical;
+  box-sizing: border-box;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-main);
+/* ===== Хлебные крошки (точное соответствие макету) ===== */
+.breadcrumbs {
+  font-size: 13px;
+  color: var(--soft, #94a3b8);
+  margin-bottom: 7px;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+.breadcrumbs a {
+  color: inherit !important; /* наследуем серый цвет от родителя */
+  text-decoration: none !important; /* убираем подчёркивание */
+  font-weight: 400;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.breadcrumbs a:hover {
+  color: var(--muted, #64748b);
+}
+
+/* ===== Основной контейнер страницы (замена тегу main) ===== */
+.page-main {
+  width: 100%;
+  max-width: var(--max, 1280px);
+  margin: 0 auto;
+  padding: 28px 24px 44px;
+  flex: 1;
+  display: block; /* чтобы не ломалось */
+}
+@media (max-width: 1120px) {
+  .project-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .article-layout {
+    grid-template-columns: 190px minmax(0, 1fr);
+  }
+  .article-right {
+    grid-column: 1 / -1;
+    position: static;
+  }
+  .pipeline {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .app-header-inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .top-nav {
+    flex-wrap: wrap;
+  }
+  .project-grid,
+  .form-grid,
+  .form-grid-3,
+  .stats-grid,
+  .slot-grid,
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  .col-2 {
+    grid-column: span 1;
+  }
+  .article-layout {
+    grid-template-columns: 1fr;
+  }
+  .sticky {
+    position: static;
+  }
+  .pipeline {
+    grid-template-columns: 1fr 1fr;
+  }
+  .page-head {
+    flex-direction: column;
+  }
 }
