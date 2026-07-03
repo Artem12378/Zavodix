@@ -1,140 +1,125 @@
 <template>
-  <header class="sub-header">
-    <div class="sub-header__container">
-      <div class="sub-header__brand">
-        <div class="sub-header__logo-icon">Z</div>
-        <div class="sub-header__brand-text">
-          <h1 class="sub-header__logo-name">Zavodix</h1>
-          <span class="sub-header__logo-desc">Content Factory OS</span>
+  <header class="app-header">
+    <div class="app-header-inner">
+      <!-- Левая часть: бренд -->
+      <div class="brand">
+        <div class="brand-mark">Z</div>
+        <div>
+          <div class="brand-name">Zavodix</div>
+          <div class="brand-sub">Content Factory OS</div>
         </div>
       </div>
-      <div class="sub-header__actions">
-        <nav class="sub-header__nav">
-          <router-link to="/dashboard" class="sub-header__link">Проекты</router-link>
-          <router-link to="/runs" class="sub-header__link">Запуски</router-link>
-          <router-link to="/users" class="sub-header__link">Пользователи</router-link>
-        </nav>
-        <div class="sub-header__profile">
-          <div class="sub-header__avatar">A</div>
-          <span class="sub-header__username">annelo@zavodix.ru</span>
+
+      <!-- Правая часть: навигация и профиль (ТОЧНО КАК В МАКЕТЕ) -->
+      <nav class="top-nav">
+        <router-link to="/dashboard" active-class="active">Проекты</router-link>
+        <router-link to="/runs" active-class="active">Запуски</router-link>
+        <router-link to="/users" active-class="active">Пользователи</router-link>
+        <div class="user-chip">
+          <div class="avatar">A</div>
+          <span>annelo@zavodix.ru</span>
         </div>
-      </div>
+      </nav>
     </div>
   </header>
 </template>
 
 <style scoped>
-.sub-header {
-  width: 100%;
-  height: 56px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
-  /* НЕТ position: fixed – он теперь обычный блок */
+/* ===== ТОЧНЫЕ СТИЛИ ИЗ МАКЕТА ===== */
+.app-header {
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  backdrop-filter: blur(14px);
 }
 
-.sub-header__container {
-  width: 100%;
-  max-width: 1280px;
+.app-header-inner {
+  max-width: var(--max, 1280px);
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 13px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 18px;
 }
 
-.sub-header__brand {
+.brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
-.sub-header__logo-icon {
-  width: 32px;
-  height: 32px;
-  background-color: #6366f1;
-  color: #ffffff;
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #fff;
+  display: grid;
+  place-items: center;
   font-weight: 800;
-  font-size: 1.1rem;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.brand-name {
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: var(--soft, #94a3b8);
+  margin-top: -2px;
+}
+
+/* ===== НАВИГАЦИЯ (top-nav) ===== */
+.top-nav {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 4px;
+}
+
+.top-nav a {
+  padding: 7px 10px;
   border-radius: 8px;
-}
-
-.sub-header__brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.sub-header__logo-name {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-}
-
-.sub-header__logo-desc {
-  font-size: 0.75rem;
-  color: #94a3b8;
-}
-
-.sub-header__actions {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-.sub-header__nav {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.sub-header__link {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #64748b;
+  color: var(--muted, #64748b);
+  font-size: 11px;
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
-.sub-header__link:hover {
-  color: #0f172a;
+.top-nav a:hover {
+  background: var(--surface-3, #f1f5f9);
+  color: var(--text, #0f172a);
 }
 
-.sub-header__link.router-link-active {
-  color: #2563eb;
-  font-weight: 600;
+.top-nav a.active {
+  background: #eff6ff;
+  color: var(--primary, #2563eb);
+  font-weight: 650;
 }
 
-.sub-header__profile {
+/* ===== USER CHIP ===== */
+.user-chip {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background-color: #f1f5f9;
-  padding: 0.25rem 0.75rem 0.25rem 0.35rem;
-  border-radius: 9999px;
+  gap: 8px;
+  padding-left: 14px;
+  margin-left: 8px;
+  border-left: 1px solid var(--line, #e2e8f0);
+  color: var(--muted, #64748b);
+  font-size: 12px;
 }
 
-.sub-header__avatar {
-  width: 24px;
-  height: 24px;
-  background-color: #dbeafe;
-  color: #2563eb;
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e0e7ff;
+  color: #4338ca;
+  display: grid;
+  place-items: center;
   font-weight: 700;
-  font-size: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-}
-
-.sub-header__username {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #334155;
 }
 </style>

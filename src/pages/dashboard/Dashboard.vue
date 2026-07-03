@@ -1,15 +1,16 @@
 <template>
   <div class="page-main">
-    <header class="dashboard-page__header">
+    <!-- Заголовок и кнопка: структура 1-в-1 с DevTools -->
+    <div class="page-head">
       <div>
-        <h1 class="dashboard-page__title">Проекты</h1>
-        <p class="dashboard-page__subtitle">Контент-пакеты, базы знаний, адаптеры и краулинг.</p>
+        <h1 class="title">Проекты</h1>
+        <div class="subtitle">Контент-пакеты, базы знаний, адаптеры и краулинг.</div>
       </div>
       <button class="btn btn-primary" @click="$router.push('/project/new')">+ Новый проект</button>
-    </header>
+    </div>
 
-    <!-- Статистика -->
-    <div class="stats-grid" style="margin-bottom: 16px">
+    <!-- Статистика (ваши глобальные классы .stats-grid и .stat) -->
+    <div class="stats-grid" style="margin-bottom: 24px">
       <div class="stat">
         <div class="stat-label">Проекты</div>
         <div class="stat-value">{{ projects.length }}</div>
@@ -18,42 +19,40 @@
       <div class="stat">
         <div class="stat-label">Article packages</div>
         <div class="stat-value">{{ totalArticles }}</div>
-        <div class="stat-sub">готово</div>
+        <div class="stat-sub">{{ totalArticles }} готовы</div>
       </div>
       <div class="stat">
         <div class="stat-label">Visual backlog</div>
-        <div class="stat-value" style="color: #ea580c">7</div>
+        <div class="stat-value" style="color: var(--orange, #ea580c)">7</div>
         <div class="stat-sub">картинки требуют проверки</div>
       </div>
       <div class="stat">
         <div class="stat-label">Ошибки за сутки</div>
-        <div class="stat-value" style="color: #16a34a">0</div>
+        <div class="stat-value" style="color: var(--green, #16a34a)">0</div>
         <div class="stat-sub">конвейер стабилен</div>
       </div>
     </div>
 
-    <!-- Карточки проектов -->
+    <!-- Сетка проектов -->
     <div class="project-grid">
-      <ProjectCard v-for="project in projects" :key="project.id" :project="project" class="card" />
+      <ProjectCard v-for="project in projects" :key="project.id" :project="project" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { ProjectCard } from '@widgets/project-card'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const router = useRouter()
+import ProjectCard from '@widgets/project-card/ProjectCard.vue'
 
 const projects = ref([
   {
     id: '1',
     name: 'Блог Annelo',
-    url: 'https://annelo.ru',
+    url: 'blog_annelo_ru · annelo.ru',
     status: 'active' as const,
     articlesCount: 14,
-    health: 96,
+    adaptersCount: 5,
+    crawlDate: '3 июня',
     healthDetails: [
       { label: 'Knowledge', value: 92, status: 'green' as const },
       { label: 'Links', value: 86, status: 'green' as const },
@@ -63,10 +62,11 @@ const projects = ref([
   {
     id: '2',
     name: 'Zavodix Marketing',
-    url: 'https://zavodix.ru',
+    url: 'zavodix_mkt · zavodix.ru',
     status: 'idle' as const,
     articlesCount: 2,
-    health: 38,
+    adaptersCount: 5,
+    crawlDate: '3 июня',
     healthDetails: [
       { label: 'Knowledge', value: 38, status: 'warn' as const },
       { label: 'Links', value: 22, status: 'warn' as const },
@@ -76,10 +76,10 @@ const projects = ref([
   {
     id: '3',
     name: 'Demo Project',
-    url: 'https://demo.example.com',
+    url: 'demo_project · demo.example.com',
     status: 'error' as const,
     articlesCount: 0,
-    health: 0,
+    adaptersCount: 0,
     healthDetails: [
       { label: 'Knowledge', value: 0, status: 'red' as const },
       { label: 'Links', value: 0, status: 'red' as const },
@@ -94,31 +94,9 @@ const activeProjects = computed(() => projects.value.filter((p) => p.status === 
 </script>
 
 <style scoped>
-/* Удаляем старые отступы – теперь всё идёт от .page-main */
-.dashboard-page__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 22px;
-}
-
-.dashboard-page__title {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-main, #111827);
-  letter-spacing: -0.02em;
-}
-
-.dashboard-page__subtitle {
-  color: var(--text-muted, #4b5563);
-  font-size: 0.95rem;
-  margin-top: 0.25rem;
-}
-
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-}
+/*
+  Мы убрали старые .dashboard-page__title и .dashboard-page__subtitle.
+  Все стили для .title, .subtitle и .page-head теперь живут в глобальном main.css,
+  чтобы они работали и на десктопе, и на мобильных устройствах.
+*/
 </style>

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import { Sidebar } from '@widgets/sidebar'
+import { AppHeader } from '@widgets/app-header'
 </script>
 
 <template>
   <div class="app-layout">
     <Sidebar />
+    <AppHeader v-if="$route.path !== '/auth'" />
     <div class="app-viewport">
       <RouterView />
     </div>
@@ -21,19 +23,13 @@ body,
   width: 100%;
   min-height: 100vh;
   background-color: var(--bg, #f6f7fb);
-  overflow-x: hidden;
 }
-
 .app-layout {
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
 }
-
 .app-viewport {
   width: 100%;
-  padding-top: 36px; /* отступ для фиксированного концепт-бара */
   flex: 1;
-  overflow-x: hidden;
 }
 </style>
